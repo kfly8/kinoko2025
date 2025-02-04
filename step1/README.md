@@ -1,8 +1,8 @@
 # SETUP
 
 ```sh
-docker build -t my-httpd .
-docker run -p 8888:80 my-httpd
+docker build --pull -t step1 .
+docker run -d -p 8880:80 step1
 ```
 
-http://localhost:8888/cgi-bin/bbs.pl
+http://localhost:8880/cgi-bin/bbs.pl

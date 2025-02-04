@@ -1,0 +1,4 @@
+requires 'Plack';
+requires 'DBI';
+requires 'DBD::SQLite';
+requires 'Template';
