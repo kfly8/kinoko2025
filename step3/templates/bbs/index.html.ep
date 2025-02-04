@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>モダンPerl BBS</title>
+    <style>
+        body { font-family: Arial, sans-serif; width: 600px; margin: 0 auto; }
+        textarea { width: 100%; }
+        .post { border-bottom: 1px solid #ddd; padding: 10px; }
+        .timestamp { font-size: 0.8em; color: gray; }
+    </style>
+</head>
+<body>
+    <h1>モダンPerl BBS</h1>
+    <form method="post">
+        <label>名前: <input type="text" name="name"></label><br>
+        <label>コメント: <textarea name="comment" rows="4"></textarea></label><br>
+        <input type="submit" value="投稿">
+    </form>
+    <hr>
+
+    <% for my $post (@$posts) { %>
+    <div class="post">
+        <strong><%= $post->{name} %></strong>
+        <span class="timestamp"><%= $post->{timestamp} %></span><br>
+        <%= $post->{comment} %>
+    </div>
+    <% } %>
+
+</body>
+</html>
