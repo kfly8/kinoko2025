@@ -1,25 +1,26 @@
 import { css } from 'hono/css'
 import { createRoute } from 'honox/factory'
 import PostIsland from '../islands/post-island'
-import { useState, useEffect } from 'hono/jsx'
 import type { Post } from '../types'
 
 const className = css`
   font-family: sans-serif;
 `
 
-export default createRoute((c) => {
-	const [posts, setPosts] = useState<Post[]>([]);
+const fetchPosts = async () => {
+	const url = import.meta.env.VITE_HOST! + '/api/post'
 
-	const host = import.meta.env.VITE_HOST!
+	const res = await fetch(url)
+	if (!res.ok) {
+		throw new Error(`HTTP error! status: ${res.status}`);
+	}
 
-	// 投稿一覧を取得
-	useEffect(() => {
-		fetch(`${host}/api/post`)
-			.then((res) => res.json())
-			.then((data) => setPosts(data as Post[]))
-			.catch((err) => console.error("Failed to fetch posts", err))
-	}, []);
+	const data: Post[] = await res.json();
+	return data;
+}
+
+export default createRoute(async (c) => {
+	const posts = await fetchPosts()
 
 	return c.render(
 		<div class={className}>

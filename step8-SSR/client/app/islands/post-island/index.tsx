@@ -13,14 +13,14 @@ export default function PostIsland({posts: initialPosts }: Props) {
 	const [posts, setPosts] = useState<Post[]>(initialPosts);
 
 	const addPost = async (data: { name: string, comment: string }) => {
-		const response = await fetch('/api/post', {
+		const res = await fetch('/api/post', {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify(data),
 		});
 
-		if (response.ok) {
-			const newPost = await response.json() as Post;
+		if (res.ok) {
+			const newPost : Post = await res.json()
 			setPosts([newPost, ...posts]);
 		} else {
 			console.error("Failed to add post");
