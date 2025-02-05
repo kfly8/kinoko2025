@@ -7,8 +7,9 @@ RUN cpm install --show-build-log-on-failure --without-test
 
 ENV PERL5LIB=/usr/src/app/local/lib/perl5
 
-COPY bbs.psgi bbs.psgi
-COPY .env .env
+COPY .env ./
+COPY bbs.psgi ./
+COPY ./lib ./lib
 COPY ./templates ./templates
 
 EXPOSE 8080
