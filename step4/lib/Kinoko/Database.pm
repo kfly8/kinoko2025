@@ -34,5 +34,3 @@ sub create_post($self, $post) {
     return unless $post->{comment};
     $self->db->query('INSERT INTO posts (name, comment) VALUES (?,?)', $post->{name}, $post->{comment});
 }
-
-1;
