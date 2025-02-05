@@ -15,6 +15,8 @@ get '/api/post' => sub ($c) {
 post '/api/post' => sub ($c) {
     $c = $c->openapi->valid_input or return;
 
+    $c->res->headers->access_control_allow_origin($c->req->headers->origin) if $c->req->headers->origin;
+
     my $data = $c->req->json;
 
     my $post = {
@@ -28,5 +30,5 @@ post '/api/post' => sub ($c) {
     $c->render(openapi => $new_post);
 }, 'createPost';
 
-plugin OpenAPI => { url => app->home->rel_file('../openapi.yaml') };
+plugin OpenAPI => { url => app->home->rel_file('../openapi.yaml'), add_preflighted_routes => 1, plugins => [qw(+Cors)] };
 app->start;
