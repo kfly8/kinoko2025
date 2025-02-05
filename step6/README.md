@@ -1,6 +1,7 @@
 # SETUP
 
 ```sh
-docker compoose up
+docker compose up
 ```
 
+Access the web server at http://localhost:8886/
