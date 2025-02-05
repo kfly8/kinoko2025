@@ -5,7 +5,7 @@ services:
       dockerfile: ./nginx/Dockerfile
     container_name: nginx
     ports:
-      - "8886:80"
+      - "8887:80"
     depends_on:
       - api-server
     restart: unless-stopped

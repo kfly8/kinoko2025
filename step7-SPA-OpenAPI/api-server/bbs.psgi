@@ -28,5 +28,5 @@ post '/api/post' => sub ($c) {
     $c->render(openapi => $new_post);
 }, 'createPost';
 
-plugin OpenAPI => { url => app->home->rel_file('../openapi.yaml') };
+plugin OpenAPI => { url => app->home->rel_file('./openapi.yaml') };
 app->start;
