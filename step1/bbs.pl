@@ -28,10 +28,10 @@ print <<'HTML';
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>簡易BBS</title>
+    <title>きのこBBS</title>
 </head>
 <body>
-    <h1>簡易BBS</h1>
+    <h1>きのこBBS</h1>
     <form method="post">
         名前: <input type="text" name="name"><br>
         コメント: <textarea name="comment" rows="4" cols="40"></textarea><br>
