@@ -1,9 +1,9 @@
 import { useState } from 'hono/jsx'
 
-import PostForm from './post/post-form'
-import PostList from './post/post-list'
+import PostForm from './post-form';
+import PostList from './post-list'
 
-import type { Post } from '../types'
+import type { Post } from '../../types'
 
 type Props = {
 	posts: Post[];
@@ -12,14 +12,8 @@ type Props = {
 export default function PostIsland({posts: initialPosts }: Props) {
 	const [posts, setPosts] = useState<Post[]>(initialPosts);
 
-	const host = import.meta.env.VITE_HOST as string;
-
-	// 新しい投稿を追加
 	const addPost = async (data: { name: string, comment: string }) => {
-		console.log('Called addPost');
-		console.log(host);
-
-		const response = await fetch(`${host}/api/post`, {
+		const response = await fetch('/api/post', {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify(data),

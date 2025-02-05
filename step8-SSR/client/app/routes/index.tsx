@@ -1,6 +1,6 @@
 import { css } from 'hono/css'
 import { createRoute } from 'honox/factory'
-import PostIsland from '../islands/post'
+import PostIsland from '../islands/post-island'
 import { useState, useEffect } from 'hono/jsx'
 import type { Post } from '../types'
 
@@ -11,7 +11,7 @@ const className = css`
 export default createRoute((c) => {
 	const [posts, setPosts] = useState<Post[]>([]);
 
-	const host = import.meta.env.VITE_HOST as string;
+	const host = import.meta.env.VITE_HOST!
 
 	// 投稿一覧を取得
 	useEffect(() => {
