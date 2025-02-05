@@ -5,6 +5,7 @@ use Mojo::SQLite;
 helper sqlite => sub {
     state $sqlite = do {
         my $sqlite = Mojo::SQLite->new('sqlite:bbs.db');
+
         $sqlite->db->dbh->do('PRAGMA journal_mode = WAL');
         $sqlite->db->dbh->do(q{
             CREATE TABLE IF NOT EXISTS posts (
@@ -14,6 +15,11 @@ helper sqlite => sub {
                 timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
             )
         });
+
+        $sqlite->on(connection => sub ($sql, $dbh) {
+            $dbh->do('PRAGMA synchronous = NORMAL');
+        });
+
         $sqlite;
     };
 };

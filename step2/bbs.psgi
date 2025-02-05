@@ -10,6 +10,7 @@ use Template;
 my $db_file = "bbs.db";
 my $dbh = DBI->connect("dbi:SQLite:dbname=$db_file","","", { RaiseError => 1, PrintError => 0 });
 $dbh->do('PRAGMA journal_mode = WAL');
+$dbh->do('PRAGMA synchronous = NORMAL');
 
 $dbh->do(q{
     CREATE TABLE IF NOT EXISTS posts (
