@@ -1,0 +1,3 @@
+requires 'Mojolicious';
+requires 'Mojolicious::Plugin::OpenAPI';
+requires 'Mojo::SQLite';
