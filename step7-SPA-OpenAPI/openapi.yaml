@@ -1,0 +1,74 @@
+openapi: 3.0.3
+info:
+  title: Blog Post API
+  description: OpenAPI schema for handling posts
+  version: 1.0.0
+
+paths:
+  /api/post:
+    get:
+      summary: Get all posts
+      operationId: getPosts
+      tags:
+        - Posts
+      responses:
+        "200":
+          description: Successful response with a list of posts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Post"
+
+    post:
+      summary: Create a new post
+      operationId: createPost
+      tags:
+        - Posts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PostRequest"
+      responses:
+        "200":
+          description: Post created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Post"
+
+components:
+  schemas:
+    Post:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 25
+        name:
+          type: string
+          example: "名無し"
+        comment:
+          type: string
+          example: "hello"
+        timestamp:
+          type: string
+          format: date-time
+          example: "2025-02-05T04:09:18Z"
+
+    PostRequest:
+      type: object
+      required:
+        - name
+        - comment
+      properties:
+        name:
+          type: string
+          example: "名無し"
+        comment:
+          type: string
+          example: "hello"
+
