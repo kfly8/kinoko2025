@@ -1,11 +1,23 @@
 services:
   nginx:
     build:
-      context: .
-      dockerfile: ./nginx/Dockerfile
+      context: ./nginx
+      dockerfile: Dockerfile
     container_name: nginx
     ports:
       - "8888:80"
+    depends_on:
+      - api-server
+      - honox
+    restart: unless-stopped
+
+  honox:
+    build:
+      context: ./honox
+      dockerfile: Dockerfile
+    container_name: honox
+    expose:
+      - "3000"
     depends_on:
       - api-server
     restart: unless-stopped

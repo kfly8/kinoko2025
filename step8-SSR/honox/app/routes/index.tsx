@@ -8,11 +8,12 @@ const className = css`
 `
 
 const fetchPosts = async () => {
-	const url = import.meta.env.VITE_HOST! + '/api/post'
+	const host = import.meta.env.VITE_HOST!
+	const url = host + '/api/post'
 
 	const res = await fetch(url)
 	if (!res.ok) {
-		throw new Error(`HTTP error! status: ${res.status}`);
+		throw new Error(`Failed to fetch posts. status: ${res.status}, url: ${url}`);
 	}
 
 	const data: Post[] = await res.json();
