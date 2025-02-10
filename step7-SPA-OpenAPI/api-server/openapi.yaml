@@ -58,6 +58,11 @@ components:
           type: string
           format: date-time
           example: "2025-02-05T04:09:18Z"
+      required:
+        - id
+        - name
+        - comment
+        - timestamp
 
     PostRequest:
       type: object
