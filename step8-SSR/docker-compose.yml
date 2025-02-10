@@ -16,8 +16,8 @@ services:
       context: ./honox
       dockerfile: Dockerfile
     container_name: honox
-    ports:
-      - "38888:3000"
+    expose:
+      - 3000
     depends_on:
       - api-server
     restart: unless-stopped
@@ -27,6 +27,6 @@ services:
       context: ./api-server
       dockerfile: Dockerfile
     container_name: api-server
-    ports:
-      - "38080:8080"
+    expose:
+      - 8080
     restart: unless-stopped
