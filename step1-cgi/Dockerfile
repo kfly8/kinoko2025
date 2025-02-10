@@ -9,7 +9,7 @@ RUN apt-get update && \
 COPY ./httpd.conf /usr/local/apache2/conf/httpd.conf
 
 # Copy the CGI script and data file
-COPY ./bbs.pl /usr/local/apache2/cgi-bin/bbs.pl
+COPY ./bbs.cgi /usr/local/apache2/cgi-bin/bbs.cgi
 COPY ./bbs_data.txt /usr/local/apache2/cgi-bin/bbs_data.txt
 
 EXPOSE 80
