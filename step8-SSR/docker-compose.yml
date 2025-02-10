@@ -1,8 +1,8 @@
 services:
   nginx:
     build:
-      context: ./nginx
-      dockerfile: Dockerfile
+      context: . # honox がビルドする内容を参照するため、カレントディレクトリを指定
+      dockerfile: ./nginx/Dockerfile
     container_name: nginx
     ports:
       - "8888:80"

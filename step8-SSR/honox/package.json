@@ -3,7 +3,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build --mode client && vite build",
+    "build:client": "vite build --mode client",
+    "build:server": "vite build",
+    "build": "bun run build:client && bun run build:server",
     "gen:openapi": "bunx openapi-typescript ../api-server/openapi.yaml --output app/openapi.d.ts"
   },
   "private": true,
