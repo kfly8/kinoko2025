@@ -20,7 +20,7 @@ export default function PostForm({ addPost }: Props) {
 	return (
 		<form onSubmit={handleSubmit}>
 				<label>名前: <input type="text" value={name} onChange={(e) => setName(e.target.value)} /></label><br/>
-				<label>コメント: <textarea name="comment" onChange={(e) => setComment(e.target.value)}>{comment}</textarea></label><br/>
+				<label>コメント: <textarea value={comment} onChange={(e) => setComment(e.target.value)} /></label><br/>
 				<input type="submit" value="投稿" />
 		</form>
 	);
