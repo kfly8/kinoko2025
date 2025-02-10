@@ -7,7 +7,7 @@ RUN cpm install --show-build-log-on-failure --without-test
 
 ENV PERL5LIB=/usr/src/app/local/lib/perl5
 
-COPY .env ./
+COPY .env.production ./
 COPY bbs.psgi ./
 COPY ./lib ./lib
 COPY ./templates ./templates

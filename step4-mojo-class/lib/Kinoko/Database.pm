@@ -1,5 +1,6 @@
 package Kinoko::Database;
-use v5.40;
+use strict;
+use warnings;
 use utf8;
 
 use parent 'Mojo::SQLite';
@@ -19,18 +20,23 @@ sub new {
         )
     });
 
-    $sqlite->on(connection => sub($sqlite, $dbh) {
+    $sqlite->on(connection => sub {
+        my ($sqlite, $dbh) = @_;
         $dbh->do('PRAGMA synchronous = NORMAL');
     });
 
     $sqlite;
 }
 
-sub select_posts($self) {
+sub select_posts {
+    my $self = shift;
     my $posts = $self->db->query('SELECT id, name, comment, timestamp FROM posts ORDER BY id DESC')->hashes;
 }
 
-sub create_post($self, $post) {
+sub create_post {
+    my ($self, $post) = @_;
     return unless $post->{comment};
     $self->db->query('INSERT INTO posts (name, comment) VALUES (?,?)', $post->{name}, $post->{comment});
 }
+
+1;
