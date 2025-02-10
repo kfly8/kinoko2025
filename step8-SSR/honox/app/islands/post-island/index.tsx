@@ -3,6 +3,11 @@ import { useState } from 'hono/jsx'
 import PostForm from './post-form';
 import PostList from './post-list'
 
+import type { paths } from "../../openapi.d"
+import createClient from "openapi-fetch";
+
+const client = createClient<paths>();
+
 import type { Post } from '../../types'
 
 type Props = {
@@ -12,19 +17,14 @@ type Props = {
 export default function PostIsland({posts: initialPosts }: Props) {
 	const [posts, setPosts] = useState<Post[]>(initialPosts);
 
-	const addPost = async (data: { name: string, comment: string }) => {
-		const res = await fetch('/api/post', {
-			method: "POST",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify(data),
-		});
-
-		if (res.ok) {
-			const newPost : Post = await res.json()
-			setPosts([newPost, ...posts]);
-		} else {
-			console.error("Failed to add post");
+	const addPost = async (body: { name: string, comment: string }) => {
+		const { data, error } = await client.POST("/api/post", { body });
+		if (error) {
+			console.error(error);
+			return;
 		}
+
+		setPosts([data, ...posts]);
 	};
 
 	return (

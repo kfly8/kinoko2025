@@ -1,6 +1,3 @@
-export type Post = {
-	id: number;
-	name: string;
-	comment: string;
-	timestamp: string;
-}
+import type { components } from "./openapi.d";
+
+export type Post = components["schemas"]["Post"];

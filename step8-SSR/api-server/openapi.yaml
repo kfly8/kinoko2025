@@ -11,12 +11,6 @@ paths:
       operationId: getPosts
       tags:
         - Posts
-      parameters:
-        - in: header
-          name: Origin
-          schema:
-            type: string
-          description: "CORS: Origin header"
       responses:
         "200":
           description: Successful response with a list of posts
@@ -27,40 +21,11 @@ paths:
                 items:
                   $ref: "#/components/schemas/Post"
 
-    options:
-      summary: Preflight request for creating a new post
-      operationId: preflightCreatePost
-      responses:
-        "204":
-          description: No content for preflight request
-          headers:
-            Access-Control-Allow-Origin:
-              description: "CORS: Allowed origin"
-              schema:
-                type: string
-                example: "*"
-            Access-Control-Allow-Methods:
-              description: "CORS: Allowed methods"
-              schema:
-                type: string
-                example: "GET, POST, OPTIONS"
-            Access-Control-Allow-Headers:
-              description: "CORS: Allowed headers"
-              schema:
-                type: string
-                example: "Content-Type, Authorization"
-
     post:
       summary: Create a new post
       operationId: createPost
       tags:
         - Posts
-      parameters:
-        - in: header
-          name: Origin
-          schema:
-            type: string
-          description: "CORS: Origin header"
       requestBody:
         required: true
         content:
@@ -93,6 +58,11 @@ components:
           type: string
           format: date-time
           example: "2025-02-05T04:09:18Z"
+      required:
+        - id
+        - name
+        - comment
+        - timestamp
 
     PostRequest:
       type: object

@@ -3,16 +3,19 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build --mode client && vite build"
+    "build": "vite build --mode client && vite build",
+    "gen:openapi": "bunx openapi-typescript ../api-server/openapi.yaml --output app/openapi.d.ts"
   },
   "private": true,
   "dependencies": {
     "hono": "^4.6.20",
-    "honox": "^0.1.34"
+    "honox": "^0.1.34",
+    "openapi-fetch": "^0.13.4"
   },
   "devDependencies": {
     "@hono/vite-build": "^1.2.0",
     "@hono/vite-dev-server": "^0.18.1",
+    "openapi-typescript": "^7.6.1",
     "vite": "^5.4.12",
     "vite-plugin-mock": "^3.0.2"
   }

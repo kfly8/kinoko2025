@@ -1,32 +1,27 @@
 import { css } from 'hono/css'
 import { createRoute } from 'honox/factory'
 import PostIsland from '../islands/post-island'
-import type { Post } from '../types'
+
+import type { paths } from "../openapi.d"
+import createClient from "openapi-fetch";
+
+const client = createClient<paths>({ baseUrl: import.meta.env.VITE_HOST! });
 
 const className = css`
   font-family: sans-serif;
 `
 
-const fetchPosts = async () => {
-	const host = import.meta.env.VITE_HOST!
-	const url = host + '/api/post'
-
-	const res = await fetch(url)
-	if (!res.ok) {
-		throw new Error(`Failed to fetch posts. status: ${res.status}, url: ${url}`);
-	}
-
-	const data: Post[] = await res.json();
-	return data;
-}
-
 export default createRoute(async (c) => {
-	const posts = await fetchPosts()
+	const { data, error } = await client.GET('/api/post');
+
+	if (error) {
+		throw new Error(`Failed to fetch posts. ${error}`);
+	}
 
 	return c.render(
 		<div class={className}>
-		  <h1>きのこ掲示板</h1>
-		  <PostIsland posts={posts}/>
+			<h1>きのこ掲示板</h1>
+			<PostIsland posts={data}/>
 		</div>,
 		{ title: 'きのこ掲示板' }
 	)
