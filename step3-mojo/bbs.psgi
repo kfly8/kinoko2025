@@ -2,6 +2,22 @@ use v5.40;
 use Mojolicious::Lite;
 use Mojo::SQLite;
 
+get '/' => sub ($c) {
+    my $posts = $c->sqlite->db->query('SELECT id, name, comment, timestamp FROM posts ORDER BY id DESC')->hashes;
+    $c->stash(posts => $posts);
+    $c->render(template => 'bbs/index');
+};
+
+post '/' => sub ($c) {
+    my $name = $c->param('name') || '名無し';
+    my $comment = $c->param('comment') || '';
+
+    if ($comment ne '') {
+        $c->sqlite->db->query('INSERT INTO posts (name, comment) VALUES (?,?)', $name, $comment);
+    }
+    $c->redirect_to('/');
+};
+
 helper sqlite => sub {
     state $sqlite = do {
         my $sqlite = Mojo::SQLite->new('sqlite:bbs.db');
@@ -24,20 +40,5 @@ helper sqlite => sub {
     };
 };
 
-get '/' => sub ($c) {
-    my $posts = $c->sqlite->db->query('SELECT id,name,comment,timestamp FROM posts ORDER BY id DESC')->hashes;
-    $c->stash(posts => $posts);
-    $c->render(template => 'bbs/index');
-};
-
-post '/' => sub ($c) {
-    my $name = $c->param('name') || '名無し';
-    my $comment = $c->param('comment') || '';
-
-    if ($comment ne '') {
-        $c->sqlite->db->query('INSERT INTO posts (name,comment) VALUES (?,?)', $name, $comment);
-    }
-    $c->redirect_to('/');
-};
 
 app->start;

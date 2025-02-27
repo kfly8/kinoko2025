@@ -28,31 +28,40 @@ my $app = sub {
     my $req = Plack::Request->new($env);
     my $res = Plack::Response->new(200);
 
-    if ($req->method eq 'POST') {
-        my $name = $req->param('name') || '名無し';
-        my $comment = $req->param('comment') || '';
+    my $path = $req->path_info;
 
-        if ($comment ne '') {
-            $dbh->do('INSERT INTO posts (name, comment) VALUES (?, ?)', undef, $name, $comment);
+    if ($path eq '/') {
+        if ($req->method eq 'POST') {
+            # 投稿データ保存
+            my $name = $req->param('name') || '名無し';
+            my $comment = $req->param('comment') || '';
+
+            if ($comment ne '') {
+                $dbh->do('INSERT INTO posts (name, comment) VALUES (?, ?)', undef, $name, $comment);
+            }
+            $res->redirect('/');
         }
-        $res->redirect('/');
-        return $res->finalize;
+        elsif ($req->method eq 'GET') {
+            # 投稿データ取得
+            my $sth = $dbh->prepare('SELECT id, name, comment, timestamp FROM posts ORDER BY id DESC');
+            $sth->execute();
+            my @posts;
+            while (my $row = $sth->fetchrow_hashref) {
+                push @posts, $row;
+            }
+
+            my $output;
+            $template->process('bbs.tt', { posts => \@posts }, \$output) || die $template->error();
+
+            $res->content_type('text/html; charset=UTF-8');
+            $res->body($output);
+        }
+    }
+    else {
+        $res->status(404);
+        $res->content_type('text/plain');
+        $res->body('Not Found');
     }
 
-    # 投稿データ取得
-    my $sth = $dbh->prepare('SELECT id, name, comment, timestamp FROM posts ORDER BY id DESC');
-    $sth->execute();
-    my @posts;
-    while (my $row = $sth->fetchrow_hashref) {
-        push @posts, $row;
-    }
-
-    my $output;
-    $template->process('bbs.tt', { posts => \@posts }, \$output) || die $template->error();
-
-    $res->content_type('text/html; charset=UTF-8');
-    $res->body($output);
     return $res->finalize;
 };
-
-$app;
