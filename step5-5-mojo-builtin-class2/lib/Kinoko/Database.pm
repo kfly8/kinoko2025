@@ -1,4 +1,4 @@
-use v5.40;
+use v5.42;
 use utf8;
 use experimental qw(class);
 
@@ -7,7 +7,7 @@ class Kinoko::Database {
     field $sqlite;
 
     method db() {
-        $sqlite //= $self->_build_sqlite();
+        $sqlite //= $self->&build_sqlite();
         $sqlite->db;
     }
 
@@ -20,7 +20,8 @@ class Kinoko::Database {
         $self->db->query('INSERT INTO posts (name, comment) VALUES (?,?)', $post->{name}, $post->{comment});
     }
 
-    method _build_sqlite() {
+    # perl5.42 になったら、完全なprivateメソッドを実装できるようになりそう
+    my method build_sqlite() {
         require Mojo::SQLite;
 
         $sqlite = Mojo::SQLite->new($dsn);

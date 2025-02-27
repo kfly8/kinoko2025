@@ -2,7 +2,7 @@ package Kinoko::Database;
 use Mouse;
 use utf8;
 
-has dsn    => ( is => 'ro', isa => 'Str', required => 1 );
+has dsn    => ( is => 'ro', isa => 'Str', default => $ENV{DATABASE_DSN} );
 has sqlite => ( is => 'ro', isa => 'Mojo::SQLite', lazy => 1, builder => '_build_sqlite' );
 
 sub db {
@@ -24,6 +24,7 @@ sub create_post {
 sub _build_sqlite {
     my $self = shift;
 
+    require Mojo::SQLite;
     my $sqlite = Mojo::SQLite->new($self->dsn);
 
     $sqlite->db->dbh->do('PRAGMA journal_mode = WAL');
